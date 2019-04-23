@@ -97,7 +97,7 @@ import random
 
 print('\n')
 print('Задача-3\n')
-n = int(input('Введите количество: '))
+n = 8
 list3 = []
 
 for i in range(n):
