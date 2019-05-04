@@ -2,6 +2,15 @@
 import os
 
 
+def print_menu():
+    print('Меню операций:')
+    print('0. Выход из программы')
+    print('1. Перейти в папку')
+    print('2. Просмотреть содержимое текущей папки')
+    print('3. Удалить папку')
+    print('4. Создать папку')
+
+
 def my_cd(path):
     os.chdir(path)
     print(f'Текущая директория: {path}')

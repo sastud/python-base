@@ -17,3 +17,10 @@
 import lib.lesson5_hw_easy_lib as easy_lib
 
 
+easy_lib.print_menu()
+# i = 1
+# while i > 0:
+
+
+
+# easy_lib.my_cd
