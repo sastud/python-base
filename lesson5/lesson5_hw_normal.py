@@ -17,23 +17,23 @@
 import libs.lesson5_hw_easy_lib as easy_lib
 
 
-# print('m. Меню\n')
-ch = 1
-while ch > 0:
+ch = '1'
+while ch != '0':
     easy_lib.print_menu()
     print('\n0. Выход из программы')
-    ch = input()
-    if ch == 1:
-        path1 = input('Укажите целевую папку: ')
+    ch = input('\nВаш выбор: ')
+    if ch == '0':
+        print('\nЗавершение работы программы')
+    elif ch == '1':
+        path1 = input('\nУкажите целевую папку: ')
         easy_lib.my_cd(path1)
-    if ch == 2:
+    elif ch == '2':
         easy_lib.my_ls()
-    if ch == 3:
-        dir3 = input('Укажите удаляемую папку: ')
+    elif ch == '3':
+        dir3 = input('\nУкажите удаляемую папку: ')
         easy_lib.my_rm(dir3)
-    if ch == 4:
-        dir4 = input('Укажите создаваемую папку: ')
+    elif ch == '4':
+        dir4 = input('\nУкажите создаваемую папку: ')
         easy_lib.my_mkdir(dir4)
-    if ch == 0:
-        print('Завершение работы программы')
-
+    else:
+        print('Некорректный ввод!')

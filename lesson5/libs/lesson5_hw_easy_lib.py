@@ -1,9 +1,11 @@
+# библиотека функций для задания normal
 
 import os
+import shutil
 
 
 def print_menu():
-    print('Меню операций:')
+    print('\nМеню операций:')
     print('1. Перейти в папку')
     print('2. Просмотреть содержимое текущей папки')
     print('3. Удалить папку')
@@ -14,6 +16,8 @@ def my_cd(path):
     try:
         os.chdir(path)
         print(f'Текущая директория: {path}')
+    except FileNotFoundError:
+        print(f'Директория не найдена!')
     except PermissionError:
         print('Невозможно перейти!')
 
@@ -30,7 +34,7 @@ def my_ls():
 
 def my_rm(dir_name):
     try:
-        os.rmdir(os.path.join(os.getcwd(), dir_name))
+        shutil.rmtree(dir_name)
         print(f'Директория {dir_name} удалена')
     except FileNotFoundError:
         print(f'Директория {dir_name} не найдена')
