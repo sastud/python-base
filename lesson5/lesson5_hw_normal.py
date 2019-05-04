@@ -14,13 +14,26 @@
 # оформленные в виде соответствующих функций,
 # и импортированные в данный файл из easy.py
 
-import lib.lesson5_hw_easy_lib as easy_lib
+import libs.lesson5_hw_easy_lib as easy_lib
 
 
-easy_lib.print_menu()
-# i = 1
-# while i > 0:
+# print('m. Меню\n')
+ch = 1
+while ch > 0:
+    easy_lib.print_menu()
+    print('\n0. Выход из программы')
+    ch = input()
+    if ch == 1:
+        path1 = input('Укажите целевую папку: ')
+        easy_lib.my_cd(path1)
+    if ch == 2:
+        easy_lib.my_ls()
+    if ch == 3:
+        dir3 = input('Укажите удаляемую папку: ')
+        easy_lib.my_rm(dir3)
+    if ch == 4:
+        dir4 = input('Укажите создаваемую папку: ')
+        easy_lib.my_mkdir(dir4)
+    if ch == 0:
+        print('Завершение работы программы')
 
-
-
-# easy_lib.my_cd
