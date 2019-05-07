@@ -1,30 +1,11 @@
-# Задание-1:
-# Доработайте реализацию программы из примера examples/5_with_args.py,
-# добавив реализацию следующих команд (переданных в качестве аргументов):
-#   cp <file_name> - создает копию указанного файла
-#   rm <file_name> - удаляет указанный файл (запросить подтверждение операции)
-#   cd <full_path or relative_path> - меняет текущую директорию на указанную
-#   ls - отображение полного пути текущей директории
-# путь считать абсолютным (full_path) -
-# в Linux начинается с /, в Windows с имени диска,
-# все остальные пути считать относительными.
-
-# Важно! Все операции должны выполняться в той директории, в который вы находитесь.
-# Исходной директорией считать ту, в которой был запущен скрипт.
-
-# P.S. По возможности, сделайте кросс-платформенную реализацию.
-
-
-# Данный скрипт можно запускать с параметрами:
-# python with_args.py param1 param2 param3
+# библиотека функций для задания hard
 
 import os
-import sys
 import shutil
-# print('sys.argv = ', sys.argv)
 
 
 def print_help():
+    print('\n')
     print('help - получение справки')
     print('mkdir <dir_name> - создание директории')
     print('ping - тестовый ключ')
@@ -32,9 +13,10 @@ def print_help():
     print('rm <file_name> - удаление указанного файла')
     print('cd <full_path or relative_path> - смена текущей директории на указанную')
     print('pwd - отображение полного пути текущей директории')
+    print('ls - отображение содержимого текущей директории')
 
 
-def make_dir():
+def make_dir(dir_name):
     if not dir_name:
         print("Необходимо указать имя директории вторым параметром")
         return
@@ -52,7 +34,7 @@ def ping():
     print("pong")
 
 
-def my_cp():
+def my_cp(file_name):
     if not file_name:
         print("Необходимо указать имя файла вторым параметром")
         return
@@ -65,7 +47,7 @@ def my_cp():
         print('Невозможно создать копию файла!')
 
 
-def my_rm():
+def my_rm(file_name):
     if not file_name:
         print("Необходимо указать имя файла вторым параметром")
         return
@@ -78,7 +60,7 @@ def my_rm():
         print('Невозможно удалить файл!')
 
 
-def my_cd():
+def my_cd(dir_name):
     if not dir_name:
         print("Необходимо указать имя директории вторым параметром")
         return
@@ -95,34 +77,11 @@ def my_pwd():
     print('Полный путь текущей директории:\n', os.getcwd())
 
 
-do = {
-    'help': print_help,
-    'mkdir': make_dir,
-    'ping': ping,
-    'cp': my_cp,
-    'rm': my_rm,
-    'cd': my_cd,
-    'pwd': my_pwd
-}
-
-try:
-    key = sys.argv[1]
-except IndexError:
-    key = None
-
-try:
-    dir_name = sys.argv[2]
-except IndexError:
-    dir_name = None
-
-try:
-    file_name = sys.argv[2]
-except IndexError:
-    file_name = None
-
-if key:
-    if do.get(key):
-        do[key]()
-    else:
-        print("Задан неверный ключ")
-        print("Укажите ключ help для получения справки")
+def my_ls():
+    try:
+        list_cur_dir = os.listdir(os.path.join(os.getcwd()))
+        print('Содержимое текущей директории: ')
+        for i in range(len(list_cur_dir)):
+            print(list_cur_dir[i])
+    except PermissionError:
+        print('Невозможно отобразить содержимое!')
