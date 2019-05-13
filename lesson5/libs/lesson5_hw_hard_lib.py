@@ -51,13 +51,19 @@ def my_rm(file_name):
     if not file_name:
         print("Необходимо указать имя файла вторым параметром")
         return
-    try:
-        os.remove(os.path.abspath(file_name))
-        print(f'Файл {file_name} удален')
-    except FileNotFoundError:
-        print(f'Файл {file_name} не найден')
-    except PermissionError:
-        print('Невозможно удалить файл!')
+    cn = input(f'Подтверждаете удаление файла {file_name}, y/n?: ')
+    if cn == 'y':
+        try:
+            os.remove(os.path.abspath(file_name))
+            print(f'Файл {file_name} удален')
+        except FileNotFoundError:
+            print(f'Файл {file_name} не найден')
+        except PermissionError:
+            print('Невозможно удалить файл!')
+    elif cn == 'n':
+        print('Отменено')
+    else:
+        print('Некорректный ввод!')
 
 
 def my_cd(dir_name):
