@@ -45,5 +45,5 @@ for i in range(len(list_cur_dir)):
 print('\n')
 print('Задача-3\n')
 
-shutil.copy2(os.path.abspath(__file__), os.path.abspath(__file__) + '.copy')
+shutil.copy2(os.path.abspath(__file__), os.path.abspath(__file__) + '.copy.py')
 print(f'Файл {__file__}.copy создан/перезаписан')
