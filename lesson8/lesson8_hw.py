@@ -21,7 +21,7 @@ with gzip.open('city.list.json.gz', 'rb') as f_in:
 '''
 '''
 1. Создание файла базы данных SQLite с заданной схемой
-Для отладки список городов скачан вручную и сокращен до 5 и размещен и отдельном каталоге
+Для отладки список городов скачан вручную, сокращен до 5 и размещен в отдельном каталоге
 '''
 
 r_json = dict.fromkeys(['id', 'name', 'country', 'coord'])
@@ -92,7 +92,7 @@ set_country = input('Введите код страны: ')
 
 
 '''
-3. Получение JSON для городов выбранной страны
+3. Получение JSON для городов выбранной страны и запись данных в JSON-файлы с погодой для этих городов 
 '''
 
 l_c_id = []
@@ -105,19 +105,67 @@ for _ in range(len(r_json)):
         if value == set_country:
             l_c_id.append(c_id)
 print(l_c_id)
+f_names = []
 for _ in l_c_id:
     req = str('http://api.openweathermap.org/data/2.5/weather?id=') \
         + str(_) \
         + str('&units=metric&appid=') \
         + str(app_id)
     res = requests.get(req)
-    res_json = json.loads(res.text)
+    print(res)
+    res_dict = json.loads(res.text)
+    print(type(res_dict))
+    res_json = json.dumps(res_dict, indent=4, separators=(',', ': '))
+    print(type(res_json))
     print(res_json)
+    f_name = str(_) + str('.json')
+    f_names.append(f_name)
+    with open(os.path.join(f_name), 'w') as f_wr:
+        f_wr.write(res_json)
 
 '''
 4. Парсинг JSON и запись в базу
 Доделать!..
 '''
+
+print('\n', f_names)
+t3_city = []
+for _ in f_names:
+    with open(os.path.join(_), 'r', encoding='UTF-8') as f_r:
+        f_read = dict(json.load(f_r))
+        print(type(f_read))
+        print(f_read)
+        t2_city = {}
+        for key, value in f_read.items():
+            if key == 'id':
+                t2_city.update({key: value})
+            elif key == 'name':
+                t2_city.update({key: value})
+            elif key == 'main':
+                t1_d = dict(value)
+                for key2, value2 in t1_d.items():
+                    if key2 == 'temp':
+                        t2_city.update({key2: value2})
+            elif key == 'weather':
+                for _ in value:
+                    t2_d = dict(_)
+                    for key3, value3 in t2_d.items():
+                        if key3 == 'id':
+                            t2_city.update({'weather_' + key3: value3})
+        t3_city.append(t2_city)
+print(t3_city)
+
+# f_db = 'weather.db'
+# conn = sqlite3.connect(f_db)
+# conn.close()
+
+# os.remove(f_db) # удаляет текущий файл db, добавить ветвление на случай наличия файла
+for _ in t3_city:
+    with sqlite3.connect(f_db) as c:
+        # поменять sql-запрос на update
+        c.execute('INSERT INTO weather VALUES (?,?,?,?,?)', [_['id'], _['name'], datetime.date.today(), _['temp'], _['weather_id']])
+
+
 '''
 + Рефакторинг кода (сделать классы, либо функции)
 Доделать!..
